@@ -1,0 +1,217 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>lib-basic-linechart-documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">lib-basic-linechart-documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="basiclinechart">BasicLinechart</h1>
+<p>This library was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 12.0.3.</p>
+<p>Example on : <a href="https://projet-ter-mitton-pinard.github.io/" target="_blank"> https://projet-ter-mitton-pinard.github.io/</a></p>
+<h3 id="patch-093-notes">Patch 0.9.3 notes</h3>
+<ul>
+<li>Bug fix on : zoom and scrollbar</li>
+<li>Delete file of data example because it was too heavy</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<ul>
+<li><p>Run <code>npm install https://github.com/PROJET-TER-MITTON-PINARD/lib-basic-linechart#main</code> or <code>npm install basic-linechart</code> to install.</p>
+</li>
+<li><p>Run <code>npm install d3</code> and <code>npm install @types/d3</code> to install pearDependencies.</p>
+</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>This package contains, a linechart component and some data&#39;s examples to try it.</p>
+<p>On the linechart component you can : </p>
+<ul>
+<li>zoom with ctrl+wheel</li>
+<li>move the horizontal scrollbar, scroll the time</li>
+<li>move the vertical current time line </li>
+</ul>
+<p>You can synchronize the time range and the current time line on several components. </p>
+<h2 id="how-to-use">How to use</h2>
+<ul>
+<li><p>In your app.module.ts, you must add <code>BasicLinechartModule</code> to imports of <code>@NgModule</code>. </p>
+</li>
+<li><p>In your app.component.html, you can add the component : </p>
+<div><pre class="line-numbers"><code class="language-html">&lt;lib-basic-linechart&gt;&lt;/lib-basic-linechart&gt;</code></pre></div></li>
+</ul>
+<h3 id="parameters-of-the-component">Parameters of the component</h3>
+<p>No parameters are required.</p>
+<ul>
+<li>Input <code>[data]: Data[]</code> default value : [], data displayed in the component (specified Data in the section below)</li>
+<li>Input <code>[width]: number</code> default value : 900, width of the component</li>
+<li>Input <code>[height]: number</code> default value : 200, height of the component</li>
+<li>Input <code>[domain]: [number,number]</code> default value : [0,0], domain of value (only for continuous values)</li>
+<li>Input <code>[range]: [number,number]</code> default value : [0,0], range of timestamp that we display in component </li>
+<li>Input <code>[currenTime]: number</code> default value : 0, timestamp for the current time line</li>
+<li>Input <code>[speedZoom]: number ]0;1]</code> default value : 0.2   </li>
+<li>Output <code>(rangeChange): [number,number]</code> to bind with a function in your app, to synchronize components ranges </li>
+<li>Output <code>(currenTimeChange): number</code> to bind with a function in your app, to synchronize components currentTime </li>
+</ul>
+<p>/!\ Don&#39;t mix dataset with different value&#39;s type (continuous, positive integer) in one component.</p>
+<p>/!\ Don&#39;t mix dataset with different range of timestamp in one component.</p>
+<p>/!\ Don&#39;t bind range on components that have dataset with different ranges of timestamp</p>
+<h3 id="interface-data">Interface Data</h3>
+<p>Represents one dataset. You can add an array of dataset in the component.</p>
+<div><pre class="line-numbers"><code class="language-JavaScript">interface Data {
+  label: string;
+  values: [number,number][]; //[timestamp,value]
+  color: string;
+  style: &quot;line&quot; | &quot;area&quot; | &quot;both&quot;;
+  interpolation: &quot;linear&quot; | &quot;step&quot;;
+}</code></pre></div><h3 id="dataservice">DataService</h3>
+<p>Contains function parseBool that you can use in generateData for boolean value.</p>
+<p>Contains function generateData, which you can use to parse Data from a dataset str :</p>
+<div><pre class="line-numbers"><code class="language-none">public generateData(str:string, label:string, color:string, style: &quot;both&quot;|&quot;line&quot;|&quot;area&quot;,interpolation: &quot;step&quot;|&quot;linear&quot;, f: (s:string)=&gt;number):Data</code></pre></div><p>/!\ str format example : </p>
+<div><pre class="line-numbers"><code class="language-JavaScript">`&quot;2016-07-25 15:47:24,459&quot;;&quot;PC6&quot;;&quot;OFF&quot;
+&quot;2016-07-25 19:47:24,459&quot;;&quot;PC6&quot;;&quot;ON&quot;`</code></pre></div><p>/!\ Fill parameter f with parseBool or parseFloat</p>
+<p>Examples : </p>
+<div><pre class="line-numbers"><code class="language-Javascript">generateData(&quot;PC6&quot;,&quot;#124568&quot;,&quot;both&quot;, &quot;step&quot;,parseBool)
+generateData(&quot;Temperature_Salon&quot;, &quot;purple&quot;, &quot;line&quot;, &quot;linear&quot;, parseFloat)</code></pre></div><p>Contains dataExamples : Data[]. You can import them to test the component (show in the example below).</p>
+<h2 id="example">Example</h2>
+<h3 id="appcomponentts">app.component.ts</h3>
+<p>Write in the main class :</p>
+<div><pre class="line-numbers"><code class="language-JavaScript">  public data1:Data[]=[];
+  public data2:Data[]=[];
+  public data3:Data[]=[];
+  public data4:Data[]=[];
+  public data5:Data[]=[];
+  public data6:Data[]=[];
+  public datatest:Data[]=[];
+  public range: [number, number] = [0,0];
+  public currentTime : number =0;
+  public range2: [number, number] = [0,0];
+  public currentTime2 : number =0;
+
+  constructor(data : DataService){
+    this.data1=data.dataExample1;
+    this.data2=data.dataExample2;
+    this.data3=data.dataExample3;
+    this.data4=data.dataExample4;
+    this.data5=data.dataExample5;
+    this.data6=data.dataExample6;
+  }
+  public updateRange(rangeChange: [number,number]){
+    this.range=rangeChange;
+  }
+
+  public updateCurrentTime(currentTimeChange: number ){
+    this.currentTime=currentTimeChange;
+  }
+
+  public updateRange2(rangeChange: [number,number]){
+    this.range2=rangeChange;
+  }
+
+  public updateCurrentTime2(currentTimeChange: number ){
+    this.currentTime2=currentTimeChange;
+  }
+
+  public change(i: number){
+    if(i==1) this.datatest = this.data4;
+    if(i==2) this.datatest = this.data5;
+    if(i==3) this.datatest = this.data6;
+  }</code></pre></div><h3 id="appcomponenthtml">app.component.html</h3>
+<p>Write :</p>
+<div><pre class="line-numbers"><code class="language-html">&lt;lib-basic-linechart [data]=data2 [range]=range (rangeChange)=&quot;updateRange($event)&quot; [currentTime]=currentTime (currentTimeChange)=&quot;updateCurrentTime($event)&quot;&gt;&lt;/lib-basic-linechart&gt;
+&lt;lib-basic-linechart [data]=data1 [domain]=[0,30] [range]=range (rangeChange)=&quot;updateRange($event)&quot; [currentTime]=currentTime (currentTimeChange)=&quot;updateCurrentTime($event)&quot;&gt;&lt;/lib-basic-linechart&gt;
+&lt;lib-basic-linechart [width] = &quot;1200&quot; [height]=&quot;200&quot; [data]=data3 [range]=range (rangeChange)=&quot;updateRange($event)&quot; [currentTime]=currentTime (currentTimeChange)=&quot;updateCurrentTime($event)&quot;&gt;&lt;/lib-basic-linechart&gt;
+&lt;lib-basic-linechart [speedZoom]=0.7 [data]=data4 [range]=range2 (rangeChange)=&quot;updateRange2($event)&quot; [currentTime]=currentTime2 (currentTimeChange)=&quot;updateCurrentTime2($event)&quot;&gt;&lt;/lib-basic-linechart&gt;
+&lt;lib-basic-linechart [speedZoom]=0.7 [data]=datatest [domain]=[26,27] [range]=range2 (rangeChange)=&quot;updateRange2($event)&quot; [currentTime]=currentTime2 (currentTimeChange)=&quot;updateCurrentTime2($event)&quot;&gt;&lt;/lib-basic-linechart&gt;
+&lt;button (click)=&#39;change(1)&#39;&gt;Data 4&lt;/button&gt;
+&lt;button (click)=&#39;change(2)&#39;&gt;Data 5&lt;/button&gt;
+&lt;button (click)=&#39;change(3)&#39;&gt;Data 6&lt;/button&gt;</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
